@@ -49,7 +49,8 @@ void applyVisibilityBits( uint32_t bits, Ogre::SceneNode* node )
     obj->setVisibilityFlags( bits );
   }
   // Loop over and recurse into all child nodes.
-  Ogre::SceneNode::ChildNodeIterator child_it = node->getChildIterator();
+//  Ogre::SceneNode::ChildNodeIterator child_it = node->getChildIterator();
+  Ogre::Node::ChildNodeIterator child_it = node->getChildIterator();
   while( child_it.hasMoreElements() )
   {
     Ogre::SceneNode* child = dynamic_cast<Ogre::SceneNode*>( child_it.getNext() );
