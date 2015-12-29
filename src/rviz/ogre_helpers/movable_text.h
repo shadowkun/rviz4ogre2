@@ -47,7 +47,8 @@
 #include <OgreVector3.h>
 #include <OgreQuaternion.h>
 #include <OgreSharedPtr.h>
-
+#include <OgreRenderOperation.h>
+#include <OgreException.h>
 
 namespace Ogre
 {

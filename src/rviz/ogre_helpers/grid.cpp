@@ -37,6 +37,7 @@
 #include <OgreManualObject.h>
 #include <OgreMaterialManager.h>
 #include <OgreTechnique.h>
+#include <OgreUserObjectBindings.h>
 
 #include <sstream>
 
@@ -52,11 +53,23 @@ Grid::Grid( Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node, Sty
 , height_(0)
 , color_(color)
 {
+/** old interface new for:
+SceneMemoryMgrTypes
+
+enum SceneMemoryMgrTypes
+    {
+        SCENE_DYNAMIC = 0,
+        SCENE_STATIC,
+        NUM_SCENE_MEMORY_MANAGER_TYPES
+    };
+*/
+/*
   static uint32_t gridCount = 0;
   std::stringstream ss;
   ss << "Grid" << gridCount++;
+*/
 
-  manual_object_ = scene_manager_->createManualObject( ss.str() );
+  manual_object_ = scene_manager_->createManualObject( static_cast<Ogre::SceneMemoryMgrTypes>( 0 ) );
 
   if ( !parent_node )
   {
@@ -68,8 +81,8 @@ Grid::Grid( Ogre::SceneManager* scene_manager, Ogre::SceneNode* parent_node, Sty
 
   billboard_line_ = new BillboardLine(scene_manager, scene_node_);
 
-  ss << "Material";
-  material_ = Ogre::MaterialManager::getSingleton().create( ss.str(), Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
+//  ss << "Material";
+  material_ = Ogre::MaterialManager::getSingleton().create( "Material", Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME );
   material_->setReceiveShadows(false);
   material_->getTechnique(0)->setLightingEnabled(false);
 
@@ -80,7 +93,7 @@ Grid::~Grid()
 {
   delete billboard_line_;
 
-  scene_manager_->destroySceneNode( scene_node_->getName() );
+  scene_manager_->destroySceneNode( scene_node_ );
   scene_manager_->destroyManualObject( manual_object_ );
 
   material_->unload();
